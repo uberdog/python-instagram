@@ -1,5 +1,5 @@
 from helper import timestamp_to_datetime
-
+import json
 
 class ApiModel(object):
 
@@ -89,6 +89,7 @@ class Media(ApiModel):
             new_media.comments.append(Comment.object_from_dictionary(comment))
 
         new_media.created_time = timestamp_to_datetime(entry['created_time'])
+        new_media.timestamp = int(entry['created_time'])
 
         if entry['location'] and 'id' in entry:
             new_media.location = Location.object_from_dictionary(entry['location'])
@@ -106,7 +107,16 @@ class Media(ApiModel):
 
         new_media.filter = entry.get('filter')
 
+        new_media.data = entry
+
+        if 'scopit_location_id' in entry:
+            new_media.scopit_location_id = entry['scopit_location_id']
+
         return new_media
+
+        # optimize: modify upstream code so that json is passed in and stored, rather than creating it again
+    def get_json(self):
+        return json.dumps(self.data)
 
 
 class Tag(ApiModel):
