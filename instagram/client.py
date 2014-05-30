@@ -124,7 +124,7 @@ class InstagramAPI(oauth2.OAuth2API):
 
     location_recent_media = bind_method(
                 path="/locations/{location_id}/media/recent",
-                accepts_parameters=MEDIA_ACCEPT_PARAMETERS + ['location_id'],
+                accepts_parameters=MEDIA_ACCEPT_PARAMETERS + ['location_id', 'min_timestamp', 'max_timestamp', 'min_id'],
                 root_class=Media,
                 paginates=True)
 
